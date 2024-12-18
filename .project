@@ -1,0 +1,135 @@
+#include<stdio.h>
+#include<string.h>
+#include<unistd.h>
+struct person{
+    char name[30];
+    char type[20];
+    int age;
+    float price;
+};
+#define Max_pets 100
+struct person persons[Max_pets];
+int petcunt = 0;
+ void menu();
+ void addpet();
+ void removepet();
+ void searchpet();
+ void displaypet();
+  
+  int main(){
+   int chose;
+   while(1){
+    menu();
+     printf("Enter your choose: ");
+     scanf("%d",&chose);
+     sleep(2);
+     switch(chose){
+        case 1:
+        addpet();
+        break;
+        case 2:
+        removepet();
+        break;
+        case 3:
+        displaypet();
+        break;
+        case 4:
+       searchpet();
+        case 5:
+        printf("Exiting the program.\n");
+        return 0;
+        default:
+        printf("Invalide chooes.Plase aganin\n");
+
+    
+   }
+    
+        
+    }
+    return 0;
+  }
+  void menu(){
+    printf("~~~~~PET BOARDING MANAGEMENRT SYSTEM~~~~~\n");
+    
+    printf("1. Add Pet\n");
+    printf("2. Remove Pet\n");
+    printf("3. Display All pets\n");
+    printf("4. Search Pet by Name\n");
+    printf("5. Exite \n");
+    return ;
+  }
+  void addpet(){
+    if(petcunt >= Max_pets){
+      printf("Pet database is full!\n");
+      return ;
+    }
+    printf("Enter Pet Name: ");
+    scanf("%s",persons[petcunt].name);
+    printf("Enter Pet Type: ");
+    scanf("%s",persons[petcunt].type);
+    printf("Enter Pet Age: ");
+    scanf("%d",&persons[petcunt].age);
+    printf("Enter Pet Price: ");
+    scanf("%f",&persons[petcunt].price);
+    petcunt++;
+    printf("Pet added succssfully!\n");
+  }
+  void removepet(){
+    char name[50];
+    int found = 0;
+    if(petcunt == 0){
+      printf("No pets to remove: \n");
+    
+      return ;
+    }
+    printf("Enter the name of the pet to remove: \n");
+    scanf("%s",name);
+    for(int i = 0; i<petcunt ; i++){
+      if(strcmp(persons[i].name,name) == 0){
+         for(int j=i; j<petcunt -1; j++){
+          persons[j] = persons[j-1];
+         }
+         petcunt--;
+         found =1;
+         printf("Pet remove successfully.\n");
+         break;
+      }
+    }
+ if(found !=0 ){
+  printf("Pet not found.\n");
+ }
+  }
+  void displaypet(){
+
+    if(petcunt ==0){
+      printf("No pets available.\n");
+      return  ;
+    }
+    printf("\n ----List of pets----\n");
+    for(int i = 0; i<petcunt; i++){
+      printf("Name: %s\n",persons[i].name);
+      printf("Type: %s\n",persons[i].type);
+      printf("Age: %d\n",persons[i].age);
+      printf("Price: %.2f\n",persons[i].price);
+
+    }
+  }
+  void searchpet(){
+    char name[50];
+    int found = 0;
+    printf("Enter the name of pet to search: \n");
+    scanf("%s",name);
+    for(int i = 0; i<petcunt;i++){
+      if(strcmp(persons[i].name,name) == 0){
+        printf(" *****Pet found***** ");
+        printf("Name: %s\n",persons[i].name);
+        printf("Type: %s\n",persons[i].type);
+        printf("Age: %d\n",persons[i].age);
+        printf("Price: %.2f\n",persons[i].price);
+      }
+      found++;
+    }
+    if(found ==0){
+        printf("Pet not found.\n");
+      }
+  }
